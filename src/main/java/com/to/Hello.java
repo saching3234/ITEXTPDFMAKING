@@ -25,6 +25,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 
 public class Hello implements IEventHandler { 
 
@@ -43,7 +44,7 @@ public class Hello implements IEventHandler {
 		document=new Document(pdfDocument);
 		pdfDocument.addEventHandler(PdfDocumentEvent.START_PAGE,  this);
 		document.setMargins(100f, 30f, 30f, 30f);
-		eventCounter=1;
+		
 		pdfDocument.addNewPage();
 
 		 float itemInfoColWith[]= {140,120,170,50,50};
@@ -66,7 +67,35 @@ public class Hello implements IEventHandler {
 			 itemInfoTable.addCell(new Cell().add(decimalFormat.format(double1)).setTextAlignment(TextAlignment.RIGHT));
 			 
 		 }
-		 
+		
+		 float colmWidth[]= {300,300};
+         Table globalTable =new Table(colmWidth);
+         
+         float colmWidthForPersonalInfo[]= {50,50};
+         Table personalInfoTable =new Table(colmWidthForPersonalInfo);
+         personalInfoTable.addHeaderCell(new Cell().add("Field Name").setBold().setBackgroundColor(Color.PINK).setFontColor(Color.WHITE));
+         personalInfoTable.addHeaderCell(new Cell().add("Field Value").setBold().setBackgroundColor(Color.PINK).setFontColor(Color.WHITE));
+         personalInfoTable.addCell(new Cell().add("Customer Name"));
+         personalInfoTable.addCell(new Cell().add("Sachin Gawade"));
+         personalInfoTable.addCell(new Cell().add("Customer Address"));
+         personalInfoTable.addCell(new Cell().add("Patas Daund-412219"));
+         globalTable.addCell(personalInfoTable);
+         
+         float colmWidthForFinanceInfo[]= {50,50};
+         Table FinanceInFoTable =new Table(colmWidthForFinanceInfo);
+         FinanceInFoTable.addHeaderCell(new Cell().add("Finance Field Name").setBold().setBackgroundColor(Color.PINK).setFontColor(Color.WHITE));
+         FinanceInFoTable.addHeaderCell(new Cell().add("Finance Field Value").setBold().setBackgroundColor(Color.PINK).setFontColor(Color.WHITE));
+         for(int i=0;i<5;i++) {
+         FinanceInFoTable.addCell(new Cell().add("Loan No"));
+         FinanceInFoTable.addCell(new Cell().add("123456"));
+         FinanceInFoTable.addCell(new Cell().add("Loan Type"));
+         FinanceInFoTable.addCell(new Cell().add("Personal Loan"));
+         }
+         globalTable.addCell(FinanceInFoTable.setHorizontalAlignment(HorizontalAlignment.RIGHT));    
+         document.add(globalTable);
+         eventCounter=1;
+         document.add(new AreaBreak());
+         
 		//add the table in the document
 		document.add(itemInfoTable);
 		//make the counter to 2 so that table header will not print for other pages
